@@ -1,6 +1,7 @@
 from flask import Flask, url_for, redirect, session, request
 import evernote.edam.type.ttypes as Types
 from evernote.api.client import EvernoteClient
+from ImportToNote import ImportToNote
 
 EN_CONSUMER_KEY = ""
 EN_CONSUMER_SECRET = ""
@@ -18,7 +19,8 @@ def index():
 def evernote_callback():
     session["oauth_verifier"] = request.args.get("oauth_verifier", "")
     get_access_token()
-    return session["access_token"]
+    ImportToNote(session["access_token"])
+    return "Data is tranfering to Evernote!"
 
 def get_evernote_client(token=None):
     if token:

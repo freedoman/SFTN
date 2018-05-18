@@ -42,15 +42,11 @@ def getResource(url):
     return resource
 
 
-AUTH_TOKEN = ""
-SANBOX=True
-CHINA=True
 
-if __name__ == '__main__':
-    # auth()
+def ImportToNote(auth_token):
     data = PreArticle()
 
-    client = EvernoteClient(token=AUTH_TOKEN, sandbox=SANBOX,china=CHINA)
+    client = EvernoteClient(token=auth_token, sandbox=True,china=False)
 
     user_store = client.get_user_store()
     note_store = client.get_note_store()
@@ -72,6 +68,10 @@ if __name__ == '__main__':
 
         note = EvernoteMaking(note_store, noteTitle, noteBody, noteResource)
         print(note.guid)
+
+if __name__ == '__main__':
+    auth_token = ""
+    ImportToNote(auth_token)
 
 
 
