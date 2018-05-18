@@ -5,10 +5,9 @@ import re
 def PreArticle():
     articleDirName = ""
     if os.path.exists("data"):
-        articleDirName = os.listdir("data")[1]
-        articleDirPath = '{0}/{1}'.format('data', articleDirName)
-
         filePattern = re.compile('^[^.].*?$', re.S | re.IGNORECASE)
+        articleDirName = [f for f in os.listdir("data") if re.match(filePattern, f)][0]
+        articleDirPath = '{0}/{1}'.format('data', articleDirName)
         articleList = [f for f in os.listdir(articleDirPath) if re.match(filePattern, f)]
         articleList.sort()
 
