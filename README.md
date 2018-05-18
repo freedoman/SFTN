@@ -1,2 +1,2 @@
 # SFTN
-save file to evernote
+save file to evernote with python3
