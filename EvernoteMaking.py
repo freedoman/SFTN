@@ -1,5 +1,6 @@
 import binascii
 import evernote.edam.type.ttypes as Types
+import evernote.edam.error.ttypes as Errors
 
 
 def EvernoteMaking(noteStore, noteTitle, noteBody, resources=[], parentNotebook=None):
@@ -9,6 +10,7 @@ def EvernoteMaking(noteStore, noteTitle, noteBody, resources=[], parentNotebook=
     """
     newNote = Types.Note()
     newNote.title = noteTitle
+    # print(newNote)
 
     ## Build body of note
 
@@ -17,7 +19,7 @@ def EvernoteMaking(noteStore, noteTitle, noteBody, resources=[], parentNotebook=
     nBody += "<en-note>{}".format(noteBody)
     if resources:
         ### Add Resource objects to note body
-        nBody += "<br />"
+        # nBody += "<br />"
         newNote.resources = resources
         for resource in resources:
             hexhash = binascii.hexlify(resource.data.bodyHash).decode('utf8')
@@ -32,9 +34,13 @@ def EvernoteMaking(noteStore, noteTitle, noteBody, resources=[], parentNotebook=
     if parentNotebook and hasattr(parentNotebook, 'guid'):
         newNote.notebookGuid = parentNotebook.guid
 
+    # print("ok2")
+
     ## Attempt to create note in Evernote account
     try:
         # pass
+        # print(newNote.notebookGuid)
+        # print("ok3")
         note = noteStore.createNote(newNote)
     except Errors.EDAMUserException as edue:
         ## Something was wrong with the note data

@@ -13,21 +13,26 @@ def PreArticle():
 
         articlePattern = getArticlePattern(articleList)
         articlePreList = getArticlePrepared(articleList, articlePattern, articleDirPath)
-        return articlePreList
+        return articleDirName, articlePreList
 
     else:
         return None
 
 def getArticlePattern(articleList):
-    metaPattern = re.compile('(\d{2}|[\u4e00-\u9fa5]{3}).*?', re.S)
-    print(articleList)
+    metaPattern = re.compile('(\w{2}|\w{4}|[\u4e00-\u9fa5]{3}).*?', re.S)
+    # print(articleList)
     articleInfo = [re.match(metaPattern, article).group(1) for article in articleList]
     articleInfo = list(set(articleInfo))
     articleInfo.sort()
+    # print(articleInfo)
     articlePattern = [(re.compile('^(' + info + '.*?)\d*\.(jpg|png|pdf)$', re.S | re.IGNORECASE), re.compile('^(' + info + '.*?)\.(mp3|m4a)$', re.S | re.IGNORECASE)) for info in articleInfo]
     return articlePattern    
 
-
+def deleteSpecialCharacter(astring):
+    specialCharacter = '&'
+    for s in specialCharacter:
+        astring = re.sub(s,'',astring)
+    return astring.strip()
 
 def getArticlePrepared(articleList, articlePattern, articleDirPath):
     articlePreList = {}
@@ -42,7 +47,9 @@ def getArticlePrepared(articleList, articlePattern, articleDirPath):
             if resText:
                 if not articleName:
                     articleName = resText.group(1)
-                # print("articleName: ", articleName)
+                # print("articleName before: ", articleName)
+                articleName = deleteSpecialCharacter(articleName)
+                # print("articleName after: ", articleName)
                 articleText.add('{0}/{1}'.format(articleDirPath, article))
             else:
                 resWav = re.match(pattern[1], article)

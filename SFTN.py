@@ -3,8 +3,8 @@ import evernote.edam.type.ttypes as Types
 from evernote.api.client import EvernoteClient
 from ImportToNote import ImportToNote
 
-EN_CONSUMER_KEY = ""
-EN_CONSUMER_SECRET = ""
+EN_CONSUMER_KEY = "lzcscec2017-6228"
+EN_CONSUMER_SECRET = "2861aa2e17e6f8e5"
 SECRET_KEY = "everything is ok"
 
 app = Flask(__name__)
@@ -24,7 +24,7 @@ def evernote_callback():
 
 def get_evernote_client(token=None):
     if token:
-        return EvernoteClient(token=token, sandbox=True)
+        return EvernoteClient(token=token, sandbox=False, china=True)
     else:
         return EvernoteClient(consumer_key=EN_CONSUMER_KEY, consumer_secret=EN_CONSUMER_SECRET,sandbox=True)
 
